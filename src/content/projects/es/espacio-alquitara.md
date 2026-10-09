@@ -8,8 +8,8 @@ role: 'Único desarrollador: arquitectura, backend, frontend y despliegue'
 period: 2026 — hoy
 stack: [Laravel 12, PHP 8.4, React 19, TypeScript, Tailwind, MySQL, WooCommerce, GitHub Actions]
 shots:
-  - { src: espacio-alquitara/cover, label: 'Panel de gestión' }
-  - { src: espacio-alquitara/rooms, label: 'Reservas de salas' }
+  - { src: espacio-alquitara/cover, label: 'Catálogo de productos' }
+  - { src: espacio-alquitara/rooms, label: 'Programación de clases' }
 ---
 
 ## El reto

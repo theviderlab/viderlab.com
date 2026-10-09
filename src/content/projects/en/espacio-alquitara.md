@@ -8,8 +8,8 @@ role: 'Sole developer: architecture, backend, frontend and deployment'
 period: 2026 — now
 stack: [Laravel 12, PHP 8.4, React 19, TypeScript, Tailwind, MySQL, WooCommerce, GitHub Actions]
 shots:
-  - { src: espacio-alquitara/cover, label: 'Management dashboard' }
-  - { src: espacio-alquitara/rooms, label: 'Room bookings' }
+  - { src: espacio-alquitara/cover, label: 'Product catalog' }
+  - { src: espacio-alquitara/rooms, label: 'Class scheduling' }
 ---
 
 ## The challenge

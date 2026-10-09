@@ -9,9 +9,9 @@ stack: [PHP 8.1, WordPress, WooCommerce, MySQL, JavaScript, RoomCloud XML OTA AP
 outcome: { value: '+50%', label: 'direct bookings' }
 link: { href: 'https://apartur.com.ar', label: 'apartur.com.ar' }
 shots:
+  - { src: apartur/checkout, label: 'Booking checkout' }
+  - { src: apartur/backoffice, label: 'Back office: hotel settings' }
   - { src: apartur/cover, label: 'Availability search on apartur.com.ar' }
-  - { src: apartur/checkout, label: 'Room selection and checkout' }
-  - { src: apartur/backoffice, label: 'Back office: inventory calendar' }
 ---
 
 ## The challenge

@@ -9,7 +9,7 @@ period: 2025
 stack: [PyTorch, Image retrieval, ONNX, Android, Realidad aumentada]
 link: { href: 'https://github.com/theviderlab/landmark-detection-with-retrieval', label: 'Repositorio en GitHub' }
 shots:
-  - { src: landmark-detection/cover, label: 'Reconocimiento en la app Android' }
+  - { src: landmark-detection/cover, label: 'Pipeline del modelo: detección, descriptores y búsqueda por similitud' }
 ---
 
 ## La idea
