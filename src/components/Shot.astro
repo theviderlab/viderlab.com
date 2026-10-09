@@ -9,10 +9,19 @@ interface Props {
   label: string;
   ratio?: string;
   eager?: boolean;
+  /** Rendered width hint for the browser, as in the `sizes` attribute. */
+  sizes?: string;
   class?: string;
 }
 
-const { src, label, ratio = '16 / 10', eager = false, class: className } = Astro.props;
+const {
+  src,
+  label,
+  ratio = '16 / 10',
+  eager = false,
+  sizes = '(max-width: 800px) 100vw, 800px',
+  class: className,
+} = Astro.props;
 
 const files = import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/shots/**/*.{png,jpg,jpeg,webp,avif}',
@@ -30,8 +39,8 @@ const dev = import.meta.env.DEV;
     <Image
       src={image}
       alt={label}
-      widths={[480, 800, 1200, 1600]}
-      sizes="(max-width: 800px) 100vw, 800px"
+      widths={[480, 800, 1200, 1600, 2200]}
+      sizes={sizes}
       loading={eager ? 'eager' : 'lazy'}
     />
   ) : (
