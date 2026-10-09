@@ -1,0 +1,253 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Shot from './Shot.astro';
+import { ui, paths, type Lang } from '../i18n';
+import { getProjects, type Project } from '../lib/projects';
+
+interface Props {
+  lang: Lang;
+  project: Project;
+}
+
+const { lang, project } = Astro.props;
+const t = ui[lang];
+const d = project.data;
+const { Content } = await render(project);
+
+const all = await getProjects(lang);
+const next = all[(all.findIndex((p) => p.slug === project.slug) + 1) % all.length];
+const other: Lang = lang === 'es' ? 'en' : 'es';
+const [cover, ...gallery] = d.shots;
+---
+
+<Base
+  lang={lang}
+  title={`${d.title} · Rodrigo Díaz Velasco`}
+  description={d.summary}
+  alternate={paths.project(other, project.slug)}
+>
+  <article class="project">
+    <header class="wrap head">
+      <a class="back" href={`${paths.home(lang)}#work`}>← {t.project.back}</a>
+      <div class="top">
+        <span>{d.kicker}</span>
+        {d.status && <span class="status">{d.status}</span>}
+      </div>
+      <h1 class="display title">{d.title}</h1>
+      <p class="lede">{d.summary}</p>
+
+      <dl class="facts">
+        <div>
+          <dt>{t.project.role}</dt>
+          <dd>{d.role}</dd>
+        </div>
+        <div>
+          <dt>{t.project.period}</dt>
+          <dd>{d.period}</dd>
+        </div>
+        {d.outcome && (
+          <div>
+            <dt>{d.outcome.label}</dt>
+            <dd class="display big">{d.outcome.value}</dd>
+          </div>
+        )}
+        {d.link && (
+          <div>
+            <dt>{t.project.link}</dt>
+            <dd><a href={d.link.href} target="_blank" rel="noopener">{d.link.label} ↗</a></dd>
+          </div>
+        )}
+      </dl>
+    </header>
+
+    <div class="wrap">
+      <Shot src={cover.src} label={cover.label} eager class="cover" />
+    </div>
+
+    <div class="wrap body-grid">
+      <aside class="side">
+        <h2 class="side-title">{t.project.stack}</h2>
+        <ul class="chips">
+          {d.stack.map((s) => <li>{s}</li>)}
+        </ul>
+      </aside>
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    {gallery.length > 0 && (
+      <div class="wrap">
+        <h2 class="side-title">{t.project.gallery}</h2>
+        <div class="gallery">
+          {gallery.map((s) => <Shot src={s.src} label={s.label} />)}
+        </div>
+      </div>
+    )}
+
+    <nav class="wrap next" aria-label={t.project.next}>
+      <a href={paths.project(lang, next.slug)}>
+        <span class="next-label">{t.project.next} →</span>
+        <span class="display next-title">{next.data.title}</span>
+      </a>
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .head {
+    padding-top: clamp(32px, 6vw, 64px);
+  }
+  .back {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .back:hover {
+    color: var(--ink);
+  }
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 2.5rem 0 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-ink);
+  }
+  .title {
+    font-size: clamp(2.6rem, 6.5vw, 5rem);
+    max-width: 20ch;
+  }
+  .lede {
+    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    color: var(--muted);
+    max-width: 60ch;
+    margin: 1.5rem 0 0;
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: clamp(40px, 6vw, 64px) 0;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .facts dt {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+  .facts dd {
+    margin: 0;
+    font-size: 0.975rem;
+  }
+  .facts .big {
+    font-size: 2.6rem;
+    line-height: 1;
+    color: var(--accent-ink);
+  }
+  .facts a {
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
+  }
+  .body-grid {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 80px);
+    padding-top: clamp(48px, 7vw, 88px);
+    padding-bottom: clamp(48px, 7vw, 88px);
+  }
+  .side {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+  }
+  .side-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 0 0 1rem;
+  }
+  .prose {
+    max-width: 68ch;
+  }
+  .prose :global(h2) {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1.1;
+    margin: 2.5rem 0 1rem;
+  }
+  .prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .prose :global(p),
+  .prose :global(li) {
+    color: var(--muted);
+  }
+  .prose :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .prose :global(ul) {
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .prose :global(li::marker) {
+    color: var(--accent);
+  }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .next {
+    margin-top: clamp(64px, 9vw, 112px);
+    margin-bottom: clamp(64px, 9vw, 112px);
+  }
+  .next a {
+    display: block;
+    padding: 2rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+  }
+  .next-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-ink);
+    margin-bottom: 0.5rem;
+  }
+  .next-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+  }
+  .next a:hover .next-title {
+    color: var(--accent-ink);
+  }
+  @media (max-width: 800px) {
+    .body-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .side {
+      position: static;
+    }
+    .gallery {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

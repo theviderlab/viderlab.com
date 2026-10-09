@@ -1,0 +1,695 @@
+---
+import Base from '../layouts/Base.astro';
+import Shot from './Shot.astro';
+import { ui, paths, contact, type Lang } from '../i18n';
+import { getProjects } from '../lib/projects';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const projects = await getProjects(lang);
+const large = projects.filter((p) => p.data.size === 'large');
+const small = projects.filter((p) => p.data.size === 'small');
+---
+
+<Base lang={lang} alternate={paths.home(lang === 'es' ? 'en' : 'es')}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">{t.hero.eyebrow}</p>
+        <h1 class="display hero-title">
+          {t.hero.title[0]} <em>{t.hero.title[1]}</em>
+        </h1>
+        <p class="hero-lede">{t.hero.lede}</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#work">{t.hero.ctaWork} <span aria-hidden="true">↓</span></a>
+          <a class="btn btn-ghost" href="#contact">{t.hero.ctaContact}</a>
+        </div>
+        <ul class="hero-meta">
+          {t.hero.meta.map((m) => <li>{m}</li>)}
+        </ul>
+      </div>
+      <div class="hero-visual">
+        <Shot src="portrait" label={t.hero.portrait} ratio="4 / 5" eager class="portrait" />
+        <aside class="now">
+          <p class="now-title"><span class="pulse" aria-hidden="true"></span>{t.hero.nowTitle}</p>
+          <ul>
+            {t.hero.now.map((n) => <li>{n}</li>)}
+          </ul>
+        </aside>
+      </div>
+    </div>
+    <div class="wrap">
+      <dl class="stats">
+        {t.stats.map((s) => (
+          <div class="stat">
+            <dt class="display">{s.value}</dt>
+            <dd>{s.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- Selected work -->
+  <section class="section" id="work">
+    <div class="wrap">
+      <p class="kicker">{t.work.kicker}</p>
+      <h2 class="display h2">{t.work.title}</h2>
+
+      <div class="cases">
+        {large.map((p, i) => (
+          <article class:list={['case', { flip: i % 2 === 1 }]}>
+            <a class="case-media" href={paths.project(lang, p.slug)} tabindex="-1" aria-hidden="true">
+              <Shot src={p.data.shots[0].src} label={p.data.shots[0].label} />
+            </a>
+            <div class="case-body">
+              <div class="case-top">
+                <span class="case-index">0{i + 1}</span>
+                <span class="case-kicker">{p.data.kicker}</span>
+                {p.data.status && <span class="status">{p.data.status}</span>}
+              </div>
+              <h3 class="display case-title">
+                <a href={paths.project(lang, p.slug)}>{p.data.title}</a>
+              </h3>
+              <p class="muted">{p.data.summary}</p>
+              {p.data.outcome && (
+                <p class="outcome">
+                  <span class="display">{p.data.outcome.value}</span>
+                  <span>{p.data.outcome.label}</span>
+                </p>
+              )}
+              <ul class="chips">
+                {p.data.stack.slice(0, 6).map((s) => <li>{s}</li>)}
+              </ul>
+              <a class="more" href={paths.project(lang, p.slug)}>{t.work.more} <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="minis">
+        {small.map((p) => (
+          <article class="mini">
+            <a href={paths.project(lang, p.slug)} tabindex="-1" aria-hidden="true">
+              <Shot src={p.data.shots[0].src} label={p.data.shots[0].label} ratio="16 / 9" />
+            </a>
+            <div class="case-top">
+              <span class="case-kicker">{p.data.kicker}</span>
+              {p.data.status && <span class="status">{p.data.status}</span>}
+            </div>
+            <h3 class="display mini-title">
+              <a href={paths.project(lang, p.slug)}>{p.data.title}</a>
+            </h3>
+            <p class="muted">{p.data.summary}</p>
+            <a class="more" href={paths.project(lang, p.slug)}>{t.work.more} <span aria-hidden="true">→</span></a>
+          </article>
+        ))}
+      </div>
+
+      <p class="private muted">{t.work.private}</p>
+    </div>
+  </section>
+
+  <!-- What I do -->
+  <section class="section" id="services">
+    <div class="wrap">
+      <p class="kicker">{t.services.kicker}</p>
+      <h2 class="display h2">{t.services.title}</h2>
+      <ol class="services">
+        {t.services.items.map((s, i) => (
+          <li class="service">
+            <span class="service-n">0{i + 1}</span>
+            <h3>{s.title}</h3>
+            <p class="muted">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Background -->
+  <section class="section" id="path">
+    <div class="wrap">
+      <p class="kicker">{t.path.kicker}</p>
+      <h2 class="display h2">{t.path.title}</h2>
+      <ol class="timeline">
+        {t.path.roles.map((r) => (
+          <li class="tl-row">
+            <span class="tl-years">{r.years}</span>
+            <div>
+              <h3 class="tl-role">{r.role}</h3>
+              <p class="tl-org">{r.org}</p>
+            </div>
+            <p class="muted tl-text">{r.text}</p>
+          </li>
+        ))}
+      </ol>
+      <h3 class="edu-title">{t.path.eduTitle}</h3>
+      <ul class="edu">
+        {t.path.education.map((e) => (
+          <li>
+            <strong>{e.title}</strong>
+            <span class="muted">{e.org}</span>
+            <span class="edu-detail">{e.detail}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Talks -->
+  <section class="section" id="talks">
+    <div class="wrap">
+      <p class="kicker">{t.talks.kicker}</p>
+      <h2 class="display h2">{t.talks.title}</h2>
+      <div class="talks">
+        <Shot src="talks/caceres-tech" label={t.talks.photo} ratio="3 / 2" />
+        <div class="talk-body">
+          <p class="talk-meta">{t.talks.featured.meta}</p>
+          <h3 class="display talk-title">{t.talks.featured.title}</h3>
+          <p class="muted">{t.talks.featured.text}</p>
+          <a class="more" href={t.talks.featured.href} target="_blank" rel="noopener">{t.talks.featured.link} <span aria-hidden="true">↗</span></a>
+          <ul class="talk-list">
+            {t.talks.items.map((it) => (
+              <li>
+                {'href' in it && it.href ? (
+                  <a href={it.href} target="_blank" rel="noopener"><strong>{it.title}</strong></a>
+                ) : (
+                  <strong>{it.title}</strong>
+                )}
+                <span class="muted">{it.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact" id="contact">
+    <div class="wrap contact-inner">
+      <p class="kicker">{t.contact.kicker}</p>
+      <h2 class="display contact-title">{t.contact.title}</h2>
+      <p class="contact-text">{t.contact.text}</p>
+      <a class="contact-mail display" href={`mailto:${contact.email}`}>{contact.email}</a>
+      <div class="contact-links">
+        <a class="btn" href={contact.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn" href={contact.github} target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn" href={contact.cv} download>{t.contact.cv} ↓</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    padding: clamp(48px, 8vw, 96px) 0 clamp(56px, 8vw, 88px);
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 520px;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.9fr);
+    gap: clamp(32px, 6vw, 80px);
+    align-items: center;
+  }
+  .hero-title {
+    font-size: clamp(2.8rem, 7vw, 5.4rem);
+  }
+  .hero-title em {
+    display: block;
+  }
+  .hero-lede {
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    color: var(--muted);
+    max-width: 56ch;
+    margin: 1.75rem 0 2rem;
+  }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .hero-meta li::before {
+    content: '◆ ';
+    color: var(--accent);
+    font-size: 0.6rem;
+    vertical-align: 1px;
+  }
+  .hero-visual {
+    position: relative;
+    max-width: 420px;
+    justify-self: end;
+    width: 100%;
+  }
+  .hero-visual :global(.portrait) {
+    border-radius: 20px;
+    transform: rotate(1.2deg);
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.35);
+  }
+  .now {
+    position: absolute;
+    left: -36px;
+    bottom: -28px;
+    width: min(290px, 85%);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+    box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.3);
+    font-size: 0.85rem;
+  }
+  .now-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    70% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+  }
+  .now ul {
+    margin: 0;
+    padding-left: 1rem;
+    display: grid;
+    gap: 0.3rem;
+  }
+  .now li::marker {
+    color: var(--accent);
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: clamp(64px, 9vw, 104px) 0 0;
+    border-top: 1px solid var(--line);
+  }
+  .stat {
+    padding: 1.5rem 1.25rem 0 0;
+  }
+  .stat + .stat {
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--line);
+  }
+  .stat dt {
+    font-size: clamp(2.4rem, 4.5vw, 3.4rem);
+    line-height: 1;
+  }
+  .stat dd {
+    margin: 0.5rem 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    max-width: 22ch;
+  }
+
+  /* Work */
+  .cases {
+    display: grid;
+    gap: clamp(56px, 8vw, 96px);
+  }
+  .case {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 64px);
+    align-items: center;
+  }
+  .case.flip .case-media {
+    order: 2;
+  }
+  .case-media {
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .case-media:hover {
+    transform: translateY(-4px);
+  }
+  .case-top {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .case-index {
+    color: var(--accent-ink);
+  }
+  .case-title {
+    font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+    margin-bottom: 1rem;
+  }
+  .case-title a,
+  .mini-title a {
+    text-decoration: none;
+  }
+  .case-title a:hover,
+  .mini-title a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+  }
+  .outcome {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    margin: 1.5rem 0;
+  }
+  .outcome .display {
+    font-size: 2.4rem;
+    line-height: 1;
+    color: var(--accent-ink);
+  }
+  .case-body .chips {
+    margin: 1.5rem 0;
+  }
+  .more {
+    display: inline-flex;
+    gap: 0.4rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+  }
+  .more span {
+    transition: transform 0.15s ease;
+  }
+  .more:hover span {
+    transform: translateX(3px);
+  }
+  .minis {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(24px, 4vw, 40px);
+    margin-top: clamp(64px, 9vw, 104px);
+  }
+  .mini {
+    padding: 1rem 1rem 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: calc(var(--radius) + 6px);
+    background: var(--surface);
+  }
+  .mini .case-top {
+    margin: 1.25rem 0 0.75rem;
+  }
+  .mini-title {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .private {
+    margin-top: 3rem;
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  /* Services */
+  .services {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+  }
+  .service {
+    padding: 2rem 2rem 2rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .service:nth-child(even) {
+    padding: 2rem 0 2rem 2rem;
+    border-left: 1px solid var(--line);
+  }
+  .service-n {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-ink);
+  }
+  .service h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0.75rem 0 0.5rem;
+  }
+  .service p {
+    margin: 0;
+  }
+
+  /* Timeline */
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+  .tl-row {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: 1.5rem;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .tl-years {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent-ink);
+    padding-top: 0.2rem;
+  }
+  .tl-role {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+  .tl-org {
+    margin: 0.2rem 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .tl-text {
+    margin: 0;
+  }
+  .edu-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 500;
+    margin: 3rem 0 1rem;
+  }
+  .edu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .edu li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    font-size: 0.95rem;
+  }
+  .edu-detail {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-ink);
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+
+  /* Talks */
+  .talks {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 64px);
+    align-items: center;
+  }
+  .talk-meta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin: 0 0 0.75rem;
+  }
+  .talk-title {
+    font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+    margin-bottom: 1rem;
+  }
+  .talk-list {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+    border-top: 1px solid var(--line);
+  }
+  .talk-list li {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.95rem;
+  }
+  .talk-list a {
+    text-decoration: none;
+  }
+  .talk-list a:hover {
+    color: var(--accent-ink);
+  }
+
+  /* Contact */
+  .contact {
+    background: var(--invert-bg);
+    color: var(--invert-ink);
+    padding: clamp(80px, 12vw, 150px) 0;
+  }
+  .contact .kicker {
+    color: var(--accent);
+  }
+  .contact-title {
+    font-size: clamp(2.6rem, 7vw, 5.2rem);
+    max-width: 14ch;
+  }
+  .contact-text {
+    color: var(--invert-muted);
+    max-width: 52ch;
+    font-size: 1.1rem;
+    margin: 1.5rem 0 2.5rem;
+  }
+  .contact-mail {
+    display: inline-block;
+    font-size: clamp(1.6rem, 5vw, 3rem);
+    text-decoration: none;
+    border-bottom: 2px solid var(--accent);
+    line-height: 1.2;
+    word-break: break-all;
+  }
+  .contact-mail:hover {
+    color: var(--accent);
+  }
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+  }
+  .contact-links .btn {
+    border-color: color-mix(in srgb, var(--invert-ink) 30%, transparent);
+    color: var(--invert-ink);
+  }
+  .contact-links .btn:hover {
+    background: var(--invert-ink);
+    color: var(--invert-bg);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hero-grid,
+    .case,
+    .talks {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .case.flip .case-media {
+      order: 0;
+    }
+    .hero-visual {
+      justify-self: start;
+      max-width: 360px;
+      margin-bottom: 2rem;
+    }
+    .now {
+      left: auto;
+      right: -8px;
+    }
+    .stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .stat:nth-child(3) {
+      padding-left: 0;
+      border-left: 0;
+    }
+    .stat {
+      padding-bottom: 1.5rem;
+    }
+    .tl-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.5rem;
+    }
+    .edu {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 640px) {
+    .minis,
+    .services {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .service,
+    .service:nth-child(even) {
+      padding: 1.75rem 0;
+      border-left: 0;
+    }
+    .hero-visual {
+      max-width: 100%;
+    }
+    .now {
+      position: relative;
+      right: auto;
+      bottom: auto;
+      width: 100%;
+      margin-top: -40px;
+      margin-left: 12px;
+      width: calc(100% - 24px);
+    }
+  }
+</style>

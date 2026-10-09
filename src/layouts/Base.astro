@@ -1,0 +1,197 @@
+---
+import { existsSync } from 'node:fs';
+import '../styles/global.css';
+import { ui, paths, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  /** Same page in the other language. */
+  alternate: string;
+}
+
+const { lang, alternate } = Astro.props;
+const t = ui[lang];
+const title = Astro.props.title ?? t.meta.title;
+const description = Astro.props.description ?? t.meta.description;
+const other: Lang = lang === 'es' ? 'en' : 'es';
+const home = paths.home(lang);
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const altUrl = new URL(alternate, Astro.site);
+// Social preview image: drop a 1200x630 public/og.png to enable it.
+const ogImage = existsSync('public/og.png') ? new URL('/og.png', Astro.site) : undefined;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={lang} href={canonical} />
+    <link rel="alternate" hreflang={other} href={altUrl} />
+    <link rel="alternate" hreflang="x-default" href={new URL(lang === 'es' ? Astro.url.pathname : alternate, Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <script is:inline>
+      try {
+        const saved = localStorage.getItem('theme');
+        if (saved) document.documentElement.dataset.theme = saved;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap bar">
+        <a class="brand" href={home}>
+          <span class="brand-mark" aria-hidden="true">R</span>
+          <span>Rodrigo Díaz Velasco</span>
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href={`${home}#work`}>{t.nav.work}</a>
+          <a href={`${home}#services`}>{t.nav.services}</a>
+          <a href={`${home}#path`}>{t.nav.path}</a>
+          <a href={`${home}#talks`}>{t.nav.talks}</a>
+          <a href={`${home}#contact`} class="nav-cta">{t.nav.contact}</a>
+        </nav>
+        <div class="tools">
+          <a class="tool" href={alternate} hreflang={other} lang={other} title={t.switchLang.title}>{t.switchLang.label}</a>
+          <button class="tool" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap foot">
+        <span>© {new Date().getFullYear()} Rodrigo Díaz Velasco · viderlab.com</span>
+        <span class="muted">{t.footer}</span>
+      </div>
+    </footer>
+
+    <script is:inline>
+      document.getElementById('theme-toggle')?.addEventListener('click', () => {
+        const root = document.documentElement;
+        const dark = root.dataset.theme
+          ? root.dataset.theme === 'dark'
+          : matchMedia('(prefers-color-scheme: dark)').matches;
+        root.dataset.theme = dark ? 'light' : 'dark';
+        try { localStorage.setItem('theme', root.dataset.theme); } catch {}
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: saturate(1.4) blur(12px);
+    -webkit-backdrop-filter: saturate(1.4) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 64px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .brand-mark {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-style: italic;
+  }
+  .nav {
+    display: flex;
+    gap: 1.6rem;
+    margin-left: auto;
+    font-size: 0.925rem;
+  }
+  .nav a {
+    text-decoration: none;
+    color: var(--muted);
+  }
+  .nav a:hover {
+    color: var(--ink);
+  }
+  .nav .nav-cta {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .tools {
+    display: flex;
+    gap: 0.4rem;
+  }
+  .tool {
+    height: 32px;
+    min-width: 32px;
+    padding: 0 0.5rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .tool:hover {
+    border-color: var(--ink);
+  }
+  .site-footer {
+    border-top: 1px solid var(--line);
+    padding: 28px 0;
+    font-size: 0.85rem;
+  }
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 860px) {
+    .nav {
+      display: none;
+    }
+    .tools {
+      margin-left: auto;
+    }
+    .brand span:last-child {
+      font-size: 0.95rem;
+    }
+  }
+</style>
