@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>prep</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .stage {
+    display: grid;
+    grid-template-columns: 1fr 470px;
+    gap: 36px;
+    align-content: center;
+  }
+  .doc, .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 24px 60px -30px rgba(21, 23, 28, 0.25);
+  }
+  .doc { padding: 34px 40px; }
+  .path {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 46px;
+    line-height: 1.05;
+    margin: 14px 0 10px;
+  }
+  .meta { display: flex; gap: 8px; margin-bottom: 24px; }
+  h2 {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 0 0 10px;
+  }
+  .themes {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 26px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15.5px;
+  }
+  th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    padding: 0 10px 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  td {
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: 0; }
+  td.n { font-family: var(--mono); color: var(--accent-ink); width: 30px; }
+  td.id { font-family: var(--mono); font-size: 13px; color: var(--muted); white-space: nowrap; }
+  td.last { font-family: var(--mono); font-size: 13px; color: var(--muted); white-space: nowrap; }
+  tr.first td { background: var(--accent-soft); }
+  tr.first td:first-child { border-radius: 10px 0 0 10px; }
+  tr.first td:last-child { border-radius: 0 10px 10px 0; }
+  tr.faded td { opacity: 0.55; }
+
+  .card { padding: 30px 32px; display: flex; flex-direction: column; }
+  .card .top { display: flex; gap: 8px; margin-bottom: 14px; }
+  .card h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.12;
+    margin: 0 0 18px;
+  }
+  .why {
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 0 0 20px;
+  }
+  .history {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    display: grid;
+    gap: 6px;
+    margin-bottom: 22px;
+  }
+  blockquote {
+    margin: 0 0 20px;
+    padding: 14px 18px;
+    border-left: 3px solid var(--accent);
+    background: var(--bg);
+    border-radius: 0 10px 10px 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #2f343d;
+  }
+  .points {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--muted);
+    display: grid;
+    gap: 5px;
+  }
+  .points li::marker { color: var(--accent); }
+  .honesty {
+    margin-top: auto;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--amber-soft);
+    color: var(--amber);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .honesty b { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <section class="doc">
+    <div class="path">output/fieldstone-analytics-senior-python-engineer/prep-2026-11-20-technical.md</div>
+    <h1>Technical interview · Fieldstone Analytics</h1>
+    <div class="meta">
+      <span class="chip muted">Thu 20 Nov · 60 min</span>
+      <span class="chip muted">Staff engineer + EM</span>
+    </div>
+    <h2>Themes most likely to be probed</h2>
+    <div class="themes">
+      <span class="chip accent">event-driven pipelines</span>
+      <span class="chip accent">PostgreSQL at scale</span>
+      <span class="chip accent">Kubernetes in production</span>
+      <span class="chip accent">observability</span>
+    </div>
+    <h2>Questions to rehearse · worst answered first</h2>
+    <table>
+      <thead>
+        <tr><th></th><th>Question</th><th>ID</th><th>Likely</th><th>Status</th><th>Last asked</th></tr>
+      </thead>
+      <tbody>
+        <tr class="first"><td class="n">1</td><td>How would you make an event consumer idempotent?</td><td class="id">T-007</td><td><span class="chip accent">high</span></td><td><span class="chip red">weak</span></td><td class="last">❌ 28 Oct</td></tr>
+        <tr><td class="n">2</td><td>A pod is stuck in CrashLoopBackOff. How do you debug it?</td><td class="id">T-002</td><td><span class="chip accent">high</span></td><td><span class="chip red">regressed</span></td><td class="last">⚠️ 4 Nov</td></tr>
+        <tr><td class="n">3</td><td>How do you run a zero-downtime PostgreSQL migration?</td><td class="id">new</td><td><span class="chip accent">high</span></td><td><span class="chip blue">not asked yet</span></td><td class="last">–</td></tr>
+        <tr><td class="n">4</td><td>Tell me about a migration you led without downtime</td><td class="id">E-004</td><td><span class="chip accent">high</span></td><td><span class="chip amber">fair</span></td><td class="last">⚠️ 4 Nov</td></tr>
+        <tr><td class="n">5</td><td>How do you add tracing to a FastAPI service?</td><td class="id">T-011</td><td><span class="chip muted">medium</span></td><td><span class="chip green">good</span></td><td class="last">✅ 12 Nov</td></tr>
+        <tr class="faded"><td class="n">6</td><td>Walk me through your background</td><td class="id">E-001</td><td><span class="chip accent">high</span></td><td><span class="chip green">mastered</span></td><td class="last">✅ 12 Nov</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <aside class="card">
+    <div class="top">
+      <span class="chip muted">T-007 · design</span>
+      <span class="chip muted">asked 2×</span>
+    </div>
+    <h3>How would you make an event consumer idempotent?</h3>
+    <p class="why"><b style="color:var(--ink)">Why it's likely:</b> "event-driven architectures" is a core requirement, and it came up in two of your last three technical rounds.</p>
+    <div class="history">
+      <span>❌ 28 Oct · technical · jumped to tools, no pattern</span>
+      <span>⚠️ 14 Oct · technical · right idea, no example</span>
+    </div>
+    <h2>Best answer (~30 s)</h2>
+    <blockquote>"Assume every message can arrive twice. Each event carries an ID; the consumer records it in the same transaction as the write and skips IDs it has seen. At Larkspur that kept 3M events a day on SQS consistent through retries."</blockquote>
+    <ul class="points">
+      <li>Pattern first: dedup key + transactional write</li>
+      <li>Then the example and its numbers</li>
+    </ul>
+    <div class="honesty" style="margin-top:20px"><b>Honesty:</b> you haven't used Kafka. Anchor the answer on SQS/SNS and say how it would map.</div>
+  </aside>
+</div>
+</body>
+</html>

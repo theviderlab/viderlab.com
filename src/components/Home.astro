@@ -444,6 +444,28 @@ const small = projects.filter((p) => p.data.size === 'small');
     font-size: 1.75rem;
     margin-bottom: 0.75rem;
   }
+  /* An odd last card takes the full row, image beside the text. */
+  .mini:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: clamp(24px, 4vw, 40px);
+    align-content: start;
+  }
+  .mini:last-child:nth-child(odd) > * {
+    grid-column: 2;
+  }
+  .mini:last-child:nth-child(odd) > a:first-child {
+    grid-column: 1;
+    grid-row: 1 / span 4;
+    align-self: center;
+  }
+  .mini:last-child:nth-child(odd) .case-top {
+    margin-top: 0.5rem;
+  }
+  .mini:last-child:nth-child(odd) .more {
+    justify-self: start;
+  }
   .private {
     margin-top: 3rem;
     font-size: 0.9rem;
@@ -673,6 +695,9 @@ const small = projects.filter((p) => p.data.size === 'small');
     .minis,
     .services {
       grid-template-columns: minmax(0, 1fr);
+    }
+    .mini:last-child:nth-child(odd) {
+      display: block;
     }
     .service,
     .service:nth-child(even) {

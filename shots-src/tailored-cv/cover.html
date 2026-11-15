@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>cover</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .stage {
+    display: grid;
+    grid-template-columns: 620px 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  /* Job posting */
+  .posting {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 36px 40px;
+    box-shadow: 0 24px 60px -30px rgba(21, 23, 28, 0.25);
+  }
+  .url {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .company {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 17px;
+  }
+  .logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: #1f3a5f;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-family: var(--serif);
+    font-size: 22px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 1.05;
+    margin: 18px 0 14px;
+  }
+  .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 26px; }
+  h2 {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 0 0 12px;
+  }
+  ul {
+    margin: 0 0 22px;
+    padding-left: 20px;
+    display: grid;
+    gap: 9px;
+    font-size: 16.5px;
+    line-height: 1.45;
+    color: #2f343d;
+  }
+  li::marker { color: var(--line); }
+  mark {
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    border-radius: 4px;
+    padding: 0 3px;
+    font-weight: 600;
+  }
+  mark.gap {
+    background: var(--surface-2);
+    color: var(--muted);
+    text-decoration: line-through;
+    text-decoration-color: rgba(91, 97, 109, 0.5);
+  }
+
+  /* Tailored CV */
+  .right { position: relative; height: 840px; }
+  .sheet {
+    position: absolute;
+    top: 0;
+    left: 40px;
+    width: 794px;
+    height: 1123px;
+    transform: scale(0.748);
+    transform-origin: top left;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 40px 80px -30px rgba(21, 23, 28, 0.35), 0 0 0 1px var(--line);
+  }
+  .sheet iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .file {
+    position: absolute;
+    right: 0;
+    top: 26px;
+    background: var(--ink);
+    color: #f5f3ee;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.7;
+    box-shadow: 0 20px 40px -20px rgba(21, 23, 28, 0.5);
+  }
+  .file b { color: #ff9a6b; font-weight: 500; }
+  .file .ok { color: #7ee2a0; }
+  .report {
+    position: absolute;
+    right: 0;
+    bottom: 40px;
+    width: 330px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 20px 40px -24px rgba(21, 23, 28, 0.35);
+  }
+  .report h2 { margin-bottom: 14px; }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    padding: 7px 0;
+    border-top: 1px solid var(--line);
+  }
+  .row:first-of-type { border-top: 0; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <section class="posting">
+    <div class="url">jobs.example.com/fieldstone/senior-python-engineer</div>
+    <div class="company"><span class="logo">F</span> Fieldstone Analytics</div>
+    <h1>Senior Python Engineer, Data Platform</h1>
+    <div class="meta">
+      <span class="chip muted">Remote · EU</span>
+      <span class="chip muted">Full-time</span>
+      <span class="chip muted">Senior</span>
+    </div>
+    <h2>What we're looking for</h2>
+    <ul>
+      <li>5+ years building backend services in <mark>Python</mark>, ideally with <mark>FastAPI</mark></li>
+      <li>Strong <mark>PostgreSQL</mark>: schema design, partitioning, query tuning</li>
+      <li>Running services on <mark>Kubernetes</mark> in <mark>AWS</mark></li>
+      <li><mark>Event-driven</mark> architectures (Kafka or similar)</li>
+      <li>Observability with <mark>OpenTelemetry</mark> and Prometheus</li>
+      <li>Experience <mark>mentoring</mark> other engineers</li>
+      <li>Nice to have: <mark class="gap">Go</mark>, dbt</li>
+    </ul>
+  </section>
+
+  <section class="right">
+    <div class="sheet"><iframe src="cv.html" scrolling="no"></iframe></div>
+    <div class="file">
+      output/fieldstone-analytics-senior-python-engineer/<br>
+      <span class="ok">✓</span> <b>cv-fieldstone-…-engineer.pdf</b><br>
+      <span class="ok">✓</span> <b>cover-letter-fieldstone-…-engineer.pdf</b>
+    </div>
+    <div class="report">
+      <h2>Requirements vs. profile</h2>
+      <div class="row">On record <span class="chip green">8</span></div>
+      <div class="row">Asked and saved <span class="chip blue">3</span></div>
+      <div class="row">Known gap, not claimed <span class="chip muted">1</span></div>
+      <div class="row">Facts without a source <span class="chip green">0</span></div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

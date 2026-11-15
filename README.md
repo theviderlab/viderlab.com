@@ -31,6 +31,7 @@ Drop a file at the path shown in the placeholder (any of `.webp`, `.png`, `.jpg`
 | `espacio-alquitara/cover`, `espacio-alquitara/rooms` | 16:10 | Espacio Alquitara |
 | `landmark-detection/cover` | 16:9 home, 16:10 page | Landmark Detection |
 | `zobik/cover` | 16:9 home, 16:10 page | Zobik |
+| `tailored-cv/cover`, `tailored-cv/questions`, `tailored-cv/prep` | 16:9 home, 16:10 page | tailored-cv (use the fictional `workspace.example` profile, never real data) |
 
 Images are cropped to the slot (`object-fit: cover`), so export screenshots at roughly that ratio, ~1600 px wide.
 

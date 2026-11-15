@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>questions</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .term {
+    width: 1240px;
+    background: #15171c;
+    border-radius: 16px;
+    box-shadow: 0 40px 90px -40px rgba(21, 23, 28, 0.6);
+    overflow: hidden;
+    color: #d9d7d0;
+    font-family: var(--mono);
+    font-size: 16.5px;
+    line-height: 1.65;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 18px;
+    background: #1d2127;
+    border-bottom: 1px solid #2a2f37;
+    color: #8b919c;
+    font-size: 13px;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; background: #3a3f48; }
+  .bar span:last-child { margin-left: 14px; }
+  .body { padding: 28px 36px 34px; }
+  p { margin: 0; }
+  .gap-s { height: 10px; }
+  .gap-m { height: 20px; }
+
+  .you {
+    background: #1f242b;
+    border-left: 3px solid #5b616d;
+    padding: 8px 14px;
+    border-radius: 0 8px 8px 0;
+    color: #ecebe6;
+  }
+  .you::before { content: '> '; color: #8b919c; }
+  .cmd { color: #ff9a6b; }
+
+  .step::before { content: '●'; color: #ff7a45; margin-right: 12px; }
+  .step b { color: #ecebe6; font-weight: 600; }
+  .indent { padding-left: 28px; }
+  .dim { color: #8b919c; }
+  .ok { color: #7ee2a0; }
+  .gap { color: #8b919c; }
+  .ask { color: #8fb4ff; }
+  .tag {
+    display: inline-block;
+    min-width: 190px;
+  }
+
+  .q {
+    margin: 4px 0 0 28px;
+    padding: 14px 18px;
+    border: 1px solid #343a44;
+    border-radius: 10px;
+    background: #191c22;
+  }
+  .q p + p { margin-top: 4px; }
+  .n { color: #ff9a6b; margin-right: 8px; }
+
+  .file { color: #ecebe6; display: inline-block; min-width: 110px; }
+  .add { color: #7ee2a0; }
+  .cursor {
+    display: inline-block;
+    width: 10px;
+    height: 19px;
+    background: #ff7a45;
+    vertical-align: -3px;
+    margin-left: 4px;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="term">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>~/tailored-cv</span></div>
+    <div class="body">
+      <p class="you"><span class="cmd">/cv-tailor</span> https://jobs.example.com/fieldstone/senior-python-engineer</p>
+      <div class="gap-m"></div>
+
+      <p class="step">Read the posting: <b>Senior Python Engineer, Data Platform</b> · Fieldstone Analytics · Remote, EU</p>
+      <div class="gap-s"></div>
+      <p class="step">Matched <b>12 requirements</b> against your profile</p>
+      <p class="indent"><span class="ok tag">✓ 8 on record</span><span class="dim">Python · FastAPI · PostgreSQL · AWS · OpenTelemetry · dbt · mentoring · remote</span></p>
+      <p class="indent"><span class="gap tag">– 1 known gap</span><span class="dim">Go (nice to have) · in gaps.md, won't be claimed</span></p>
+      <p class="indent"><span class="ask tag">? 3 to ask</span><span class="dim">Kubernetes · event streaming · on-site days</span></p>
+      <div class="gap-m"></div>
+
+      <p class="indent">The posting asks for these things I don't have on record:</p>
+      <div class="q">
+        <p><span class="n">1.</span>Kubernetes: do you use it? If so, where and for how long?</p>
+        <p><span class="n">2.</span>Kafka or another event streaming platform: have you worked with one?</p>
+        <p><span class="n">3.</span>Two on-site days per quarter in Lisbon: does that work for you?</p>
+      </div>
+      <div class="gap-m"></div>
+
+      <p class="you">1. Yes, EKS at Larkspur since 2023, I migrated 14 services from ECS. 2. No Kafka, but I built event pipelines on SQS/SNS. 3. Yes.</p>
+      <div class="gap-m"></div>
+
+      <p class="step">Saved to your profile</p>
+      <p class="indent"><span class="file">skills.md</span><span class="add">+ Kubernetes (Amazon EKS)</span> <span class="dim">· advanced · migrated 14 services from ECS · source: Fieldstone (2026-11-15)</span></p>
+      <p class="indent"><span class="file">skills.md</span><span class="add">+ Event-driven pipelines (SQS, SNS)</span> <span class="dim">· advanced · 3M events/day at Larkspur</span></p>
+      <p class="indent"><span class="file">gaps.md</span><span class="add">+ Kafka</span> <span class="dim">· not used · frame SQS/SNS as the closest experience</span></p>
+      <p class="indent"><span class="file">facts.md</span><span class="add">+ Quarterly on-site in Lisbon: OK</span></p>
+      <div class="gap-s"></div>
+      <p class="step">Writing the tailored CV and cover letter<span class="cursor"></span></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
