@@ -35,7 +35,7 @@ export const ui = {
       nowTitle: 'Ahora mismo',
       now: [
         'Construyendo una plataforma de gestión en Laravel + React',
-        'Diseñando Zobik, una red de agentes sin controlador central',
+        'Construyendo Zobik, una red de agentes sin controlador central',
         'Charlas de IA en Cáceres Tech',
       ],
     },
@@ -156,7 +156,7 @@ export const ui = {
       nowTitle: 'Right now',
       now: [
         'Building a management platform in Laravel + React',
-        'Designing Zobik, an agent network with no master controller',
+        'Building Zobik, an agent network with no master controller',
         'Giving AI talks at Cáceres Tech',
       ],
     },
